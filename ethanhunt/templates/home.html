@@ -1,0 +1,41 @@
+{% load static %}
+<html>
+<head>
+    <title>
+        TITLE
+    </title>
+</head>
+<body>
+    <h1>Hola!</h1>
+    {% if user.is_authenticated %}
+    <h3>welcome {{user.username}}</h3>
+            {% for message in messages %}
+	<h6>{{message}}</h6>
+	{% endfor %}
+</br></br></br></br>
+<h1>TODO LIST OF AGENT</h1>
+{% for i in todo1 %}
+
+    {% ifequal i.agent_id|slugify user.username|slugify %}
+<h4>{{user.username}}||{{i.agent_id}} || {{i.TodoTitle}} || {{i.TodoDesc}} || {{i.Category}} || {{i.DueDate}}</h4>
+    {% endifequal %}
+{% endfor %}
+</br></br></br></br>
+    <form action="/home/" method="POST">
+        {% csrf_token %}
+        <input type="text"name="agent_id" id="agent_id" placeholder="enter your Agent_Id">
+        <input type="text" name="todotitle" id="todotitle" placeholder="enter todotitle">
+        <input type="text"name="TODODesc" id="TODODesc" placeholder="enter your TODO Description">
+        <input type="text" name="category" id="category" placeholder="enter category">
+        <input type="date" name="date" id="date" placeholder="enter Due date">
+        <button type="submit" >add list</button>
+    </form>
+    </br></br>
+    <a href="/logout/" >Logout</a>
+    
+    
+    {% else %}
+    <a href="/signup/" >register</a>
+    <a href="/login/" >Login</a>
+    {% endif %}
+</body>
